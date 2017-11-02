@@ -16,9 +16,10 @@ import { makeSelectLocale } from './selectors';
 
 export class LanguageProvider extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    const { locale, messages, children } = this.props;
     return (
-      <IntlProvider locale={this.props.locale} key={this.props.locale} messages={this.props.messages[this.props.locale]}>
-        {React.Children.only(this.props.children)}
+      <IntlProvider locale={locale} key={locale} messages={messages[locale]}>
+        {React.Children.only(children)}
       </IntlProvider>
     );
   }
@@ -30,10 +31,14 @@ LanguageProvider.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
+LanguageProvider.defaultProps = {
+  locale: '',
+  messages: {},
+};
 
 const mapStateToProps = createSelector(
   makeSelectLocale(),
-  (locale) => ({ locale })
+  locale => ({ locale })
 );
 
 function mapDispatchToProps(dispatch) {

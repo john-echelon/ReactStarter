@@ -23,7 +23,7 @@ import App from 'containers/App';
 import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
-/* eslint-disable import/no-unresolved, import/extensions */
+/* eslint-disable import/no-unresolved, import/extensions, import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import '!file-loader?name=[name].[ext]!./images/icon-72x72.png';
 import '!file-loader?name=[name].[ext]!./images/icon-96x96.png';
@@ -51,7 +51,7 @@ const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
-const render = (messages) => {
+const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
@@ -76,14 +76,14 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  (new Promise(resolve => {
     resolve(import('intl'));
   }))
     .then(() => Promise.all([
       import('intl/locale-data/jsonp/en.js'),
     ]))
     .then(() => render(translationMessages))
-    .catch((err) => {
+    .catch(err => {
       throw err;
     });
 } else {

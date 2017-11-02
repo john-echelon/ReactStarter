@@ -2,8 +2,9 @@
  * Language Generator
  */
 const fs = require('fs');
-const exec = require('child_process').exec;
+const childProcess = require('child_process');
 
+const { exec } = childProcess;
 function languageIsSupported(language) {
   try {
     fs.accessSync(`app/translations/${language}.json`, fs.F_OK);
@@ -20,7 +21,7 @@ module.exports = {
     name: 'language',
     message: 'What is the language you want to add i18n support for (e.g. "fr", "de")?',
     default: 'fr',
-    validate: (value) => {
+    validate: value => {
       if ((/.+/).test(value) && value.length === 2) {
         return languageIsSupported(value) ? `The language "${value}" is already supported.` : true;
       }
@@ -73,8 +74,7 @@ module.exports = {
       pattern: /(import\('intl\/locale-data\/jsonp\/[a-z]+\.js'\),\n)(?!.*import\('intl\/locale-data\/jsonp\/[a-z]+\.js'\),)/g,
       templateFile: './language/polyfill-intl-locale.hbs',
     });
-    actions.push(
-      () => {
+    actions.push(() => {
         const cmd = 'npm run extract-intl';
         exec(cmd, (err, result, stderr) => {
           if (err || stderr) {
@@ -83,8 +83,7 @@ module.exports = {
           process.stdout.write(result);
         });
         return 'modify translation messages';
-      }
-    );
+      });
 
     return actions;
   },

@@ -1,6 +1,8 @@
-const resolve = require('path').resolve;
+const path = require('path');
 const pullAll = require('lodash/pullAll');
 const uniq = require('lodash/uniq');
+
+const { resolve } = path;
 
 const ReactBoilerplate = {
   // This refers to the react-boilerplate version this project is based on.
