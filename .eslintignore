@@ -1,5 +1,6 @@
 docs/*
 build/*
+coverage/*
 internals/*
 node_modules/*
 server/*

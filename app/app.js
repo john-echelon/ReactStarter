@@ -96,3 +96,9 @@ if (!window.Intl) {
 if (process.env.NODE_ENV === 'production') {
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
+
+window.reactAppGlobalContext = {
+  apiDomainName: process.env.API_DOMAIN_NAME,
+  apiPort: process.env.API_PORT,
+  ignoreApiPort: process.env.IGNORE_API_PORT,
+};

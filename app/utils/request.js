@@ -21,14 +21,10 @@ const getRequestOptions = (customOptions = {}) => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Host: 'localhost:52668',
-        Origin: 'localhost:3000',
-        Referer: 'localhost:3000',
       },
     };
 
     const token = localStorage.getItem(localStorageKeys.accessToken);
-
     if (token !== 'null' && token) {
       defaultFetchOptions.headers.Authorization = `Bearer ${token}`;
     }

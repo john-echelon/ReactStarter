@@ -9,17 +9,25 @@ const selectLoginContainerDomain = state => state.get('loginContainer');
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by LoginContainer
  */
 
-const makeSelectLoginContainer = () => createSelector(
+const makeSelectTokenError = () => createSelector(
   selectLoginContainerDomain,
-  substate => substate.toJS()
+  substate => substate.get('error')
 );
 
-export default makeSelectLoginContainer;
-export {
+const makeSelectTokenContext = () => createSelector(
   selectLoginContainerDomain,
+  substate => ({
+    isAuthenticated: substate.get('isAuthenticated'),
+    tokenFetchStatus: substate.get('tokenFetchStatus'),
+  })
+);
+
+export default selectLoginContainerDomain;
+export {
+  makeSelectTokenContext,
+  makeSelectTokenError,
 };

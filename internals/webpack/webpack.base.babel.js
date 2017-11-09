@@ -94,6 +94,9 @@ module.exports = options => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        API_DOMAIN_NAME: process.env.API_DOMAIN_NAME || "'localhost'",
+        API_PORT: process.env.API_PORT || 3000,
+        IGNORE_API_PORT: process.env.API_PORT || false,
       },
     }),
     new webpack.NamedModulesPlugin(),

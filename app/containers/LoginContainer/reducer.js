@@ -28,7 +28,7 @@ const removeLoginCredentials = () => {
   localStorage.setItem(localStorageKeys.expiration, null);
 };
 
-function loginContainerReducer(state = initialState, action) {
+function tokenReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_TOKEN_REQUEST:
       return state.set('tokenFetchStatus', fetchStatus.pending);
@@ -46,4 +46,4 @@ function loginContainerReducer(state = initialState, action) {
   }
 }
 
-export default loginContainerReducer;
+export default tokenReducer;

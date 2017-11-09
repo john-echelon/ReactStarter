@@ -13,7 +13,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectLoginContainer from './selectors';
+import { makeSelectTokenContext, makeSelectTokenError } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { fetchTokenRequest } from './actions';
@@ -21,6 +21,7 @@ import CenteredSection from './CenteredSection';
 import Form from './Form';
 import Input from './Input';
 import { linkState } from 'utils/componentHelpers';
+import { fetchStatus } from 'utils/constants/values';
 
 export class LoginContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
@@ -31,6 +32,15 @@ export class LoginContainer extends React.Component { // eslint-disable-line rea
     };
     this.setState({ model });
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { loginContext: { tokenFetchStatus } } = this.props;
+    const { loginContext: { nextTokenFetchStatus }, error } = nextProps;
+    if (tokenFetchStatus === fetchStatus.pending && nextTokenFetchStatus === fetchStatus.failure) {
+      this.setState({ error });
+    }
+  }
+
   handleLoginClick = () => {
     const { model } = this.state;
     const { loginRequest } = this.props;
@@ -38,7 +48,7 @@ export class LoginContainer extends React.Component { // eslint-disable-line rea
   }
 
   render() {
-    const { model } = this.state;
+    const { model, error } = this.state;
     return (
       <div>
         <Helmet>
@@ -47,7 +57,7 @@ export class LoginContainer extends React.Component { // eslint-disable-line rea
         </Helmet>
         <div>
           <CenteredSection>
-          <Form method="POST" onSubmit={this.handleLoginClick}>
+            <Form>
             <Input
               id="userName"
               type="text"
@@ -65,13 +75,15 @@ export class LoginContainer extends React.Component { // eslint-disable-line rea
               value={model.password}
             />
             <button
-              type="submit"
+              type="button"
+              onClick={this.handleLoginClick}
             >
               Login
             </button>
-          </Form>
+            </Form>
           </CenteredSection>
         </div>
+        {JSON.stringify(error)}
       </div>
     );
   }
@@ -79,17 +91,22 @@ export class LoginContainer extends React.Component { // eslint-disable-line rea
 
 LoginContainer.propTypes = {
   loginRequest: PropTypes.func.isRequired,
+  loginContext: PropTypes.shape({
+    isAuthenticated: PropTypes.bool,
+    tokenFetchStatus: PropTypes.number,
+  }),
+  error: PropTypes.object,
 };
-
-// LoginContainer.defaultProps = {
-//   model: {
-//     username: '',
-//     password: '',
-//   },
-// };
-
+LoginContainer.defaultProps = {
+  loginContext: {
+    isAuthenticated: false,
+    tokenFetchStatus: fetchStatus.none,
+  },
+  error: {},
+};
 const mapStateToProps = createStructuredSelector({
-  logincontainer: makeSelectLoginContainer(),
+  loginContext: makeSelectTokenContext(),
+  error: makeSelectTokenError(),
 });
 
 function mapDispatchToProps(dispatch) {
