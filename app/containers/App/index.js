@@ -12,19 +12,27 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-
+import { Switch, Route, Link } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import LoginContainer from 'containers/LoginContainer/Loadable';
+import CourseContainer from 'containers/CourseContainer/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import PrivateRoute from 'containers/App/AuthenticatedRoute';
+import RedirectOnLoginRoute from 'containers/App/NotAuthenticatedRoute';
 
 export default function App() {
   return (
     <div>
+      <ul style={{ listStyleType: 'none', padding: 0 }}>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/login">Login</Link></li>
+        <li><Link to="/course">Courses</Link></li>
+      </ul>
       <Switch>
-        <Route exact path="/Home" component={HomePage} />
-        <Route exact path="/" component={LoginContainer} />
-        <Route component={NotFoundPage} />
+        <Route exact path="/" component={HomePage} />
+        <RedirectOnLoginRoute path="/login" redirectPath="/course" component={LoginContainer} />
+        <PrivateRoute path="/course" redirectPath="/login" component={CourseContainer} />
+        <Route path="" component={NotFoundPage} />
       </Switch>
     </div>
   );

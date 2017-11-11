@@ -16,21 +16,21 @@ function parseJSON(response) {
 }
 
 const getRequestOptions = (customOptions = {}) => {
-    const defaultFetchOptions = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const token = localStorage.getItem(localStorageKeys.accessToken);
-    if (token !== 'null' && token) {
-      defaultFetchOptions.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return lodash.merge({}, defaultFetchOptions, customOptions);
+  const defaultFetchOptions = {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
   };
+
+  const token = localStorage.getItem(localStorageKeys.accessToken);
+  if (token !== 'null' && token) {
+    defaultFetchOptions.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return lodash.merge({}, defaultFetchOptions, customOptions);
+};
 
 
 /**
@@ -61,6 +61,6 @@ export default function request(args) {
   const [url, options] = args;
   const requestOptions = getRequestOptions(options);
   return fetch(url, requestOptions)
-      .then(checkStatus)
-      .then(parseJSON);
+    .then(checkStatus)
+    .then(parseJSON);
 }

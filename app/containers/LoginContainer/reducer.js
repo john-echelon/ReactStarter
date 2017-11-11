@@ -9,6 +9,7 @@ import {
   FETCH_TOKEN_REQUEST,
   FETCH_TOKEN_SUCCESS,
   FETCH_TOKEN_FAILURE,
+  REMOVE_TOKEN,
 } from './constants';
 import { fetchStatus, localStorageKeys } from 'utils/constants/values';
 
@@ -30,19 +31,22 @@ const removeLoginCredentials = () => {
 
 function tokenReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_TOKEN_REQUEST:
-      return state.set('tokenFetchStatus', fetchStatus.pending);
-    case FETCH_TOKEN_SUCCESS:
-      setLoginCredentials(action);
-      return state.set('tokenFetchStatus', fetchStatus.success)
-                  .set('isAuthenticated', true);
-    case FETCH_TOKEN_FAILURE:
-      removeLoginCredentials();
-      return state.set('tokenFetchStatus', fetchStatus.failure)
-                  .set('isAuthenticated', false)
-                  .set('error', action.error);
-    default:
-      return state;
+  case FETCH_TOKEN_REQUEST:
+    return state.set('tokenFetchStatus', fetchStatus.pending);
+  case FETCH_TOKEN_SUCCESS:
+    setLoginCredentials(action);
+    return state.set('tokenFetchStatus', fetchStatus.success)
+      .set('isAuthenticated', true);
+  case FETCH_TOKEN_FAILURE:
+    removeLoginCredentials();
+    return state.set('tokenFetchStatus', fetchStatus.failure)
+      .set('isAuthenticated', false)
+      .set('error', action.error);
+  case REMOVE_TOKEN:
+    removeLoginCredentials();
+    return state.set('isAuthenticated', false);
+  default:
+    return state;
   }
 }
 

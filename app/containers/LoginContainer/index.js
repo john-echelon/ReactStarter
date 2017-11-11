@@ -16,16 +16,15 @@ import injectReducer from 'utils/injectReducer';
 import { makeSelectTokenContext, makeSelectTokenError } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { fetchTokenRequest } from './actions';
+import { fetchTokenRequest, removeToken } from './actions';
 import CenteredSection from './CenteredSection';
 import Form from './Form';
 import Input from './Input';
 import { linkState } from 'utils/componentHelpers';
 import { fetchStatus } from 'utils/constants/values';
 
-export class LoginContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class LoginContainer extends React.Component {
   componentWillMount() {
-    // const { model } = this.props;
     const model = {
       userName: '',
       password: '',
@@ -58,28 +57,28 @@ export class LoginContainer extends React.Component { // eslint-disable-line rea
         <div>
           <CenteredSection>
             <Form>
-            <Input
-              id="userName"
-              type="text"
-              placeholder="Username"
-              name="userName"
-              onChange={linkState(this, 'userName', 'model')}
-              value={model.username}
-            />
-            <Input
-              id="password"
-              type="password"
-              placeholder="Password"
-              name="password"
-              onChange={linkState(this, 'password', 'model')}
-              value={model.password}
-            />
-            <button
-              type="button"
-              onClick={this.handleLoginClick}
-            >
+              <Input
+                id="userName"
+                type="text"
+                placeholder="Username"
+                name="userName"
+                onChange={linkState(this, 'userName', 'model')}
+                value={model.username}
+              />
+              <Input
+                id="password"
+                type="password"
+                placeholder="Password"
+                name="password"
+                onChange={linkState(this, 'password', 'model')}
+                value={model.password}
+              />
+              <button
+                type="button"
+                onClick={this.handleLoginClick}
+              >
               Login
-            </button>
+              </button>
             </Form>
           </CenteredSection>
         </div>
@@ -112,6 +111,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     loginRequest: model => dispatch(fetchTokenRequest(model)),
+    logout: () => dispatch(removeToken()),
   };
 }
 

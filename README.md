@@ -1,4 +1,4 @@
-div align="center">A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices</div>
+<div align="center">A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices</div>
 
 ## Features
 
@@ -30,6 +30,10 @@ div align="center">A highly scalable, offline-first foundation with the best DX 
   <dt>SEO</dt>
   <dd>We support SEO (document head tags management) for search engines that support indexing of JavaScript content. (eg. Google)</dd>
 </dl>
+
+## Notes
+
+Requires the collegeUni server app running for api calls.
 
 ## Quick start
 

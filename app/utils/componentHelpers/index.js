@@ -1,3 +1,3 @@
 export {
-    linkState, linkArray, linkSelect, linkSelectArray,
+  linkState, linkArray, linkSelect, linkSelectArray,
 } from './linkState';

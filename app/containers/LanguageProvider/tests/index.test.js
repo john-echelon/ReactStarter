@@ -16,13 +16,12 @@ const messages = defineMessages({
     en: 'This is some en message',
   },
 });
-
 describe('<LanguageProvider />', () => {
   it('should render its children', () => {
     const children = (<h1>Test</h1>);
     const renderedComponent = shallow(<LanguageProvider messages={messages} locale="en">
-        {children}
-                                      </LanguageProvider>);
+      {children}
+    </LanguageProvider>); // eslint-disable-line react/jsx-closing-tag-location
     expect(renderedComponent.contains(children)).toBe(true);
   });
 });
@@ -36,10 +35,10 @@ describe('<ConnectedLanguageProvider />', () => {
 
   it('should render the default language messages', () => {
     const renderedComponent = mount(<Provider store={store}>
-        <ConnectedLanguageProvider messages={translationMessages}>
-          <FormattedMessage {...messages.someMessage} />
-        </ConnectedLanguageProvider>
-                                    </Provider>);
+      <ConnectedLanguageProvider messages={translationMessages}>
+        <FormattedMessage {...messages.someMessage} />
+      </ConnectedLanguageProvider>
+    </Provider>); // eslint-disable-line react/jsx-closing-tag-location
     expect(renderedComponent.contains(<FormattedMessage {...messages.someMessage} />)).toBe(true);
   });
 });
