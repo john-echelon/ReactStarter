@@ -3,13 +3,11 @@ import { fetchTokenSuccess, fetchTokenFailure } from './actions';
 import request from 'utils/request';
 import { FETCH_TOKEN_REQUEST } from './constants';
 
-// TODO replace action param with selectors
 export function* getToken(action) {
   try {
     const { apiDomainName, apiPort, ignoreApiPort } = window.reactAppGlobalContext;
     const requestDomain = `http://${apiDomainName}${ignoreApiPort ? '' : `:${apiPort}`}`;
     const requestURL = `${requestDomain}/xy/api/Account/token`;
-    // const requestURL = 'http://localhost:52668/api/Account/token';
     const { credentials: { userName, password } } = action;
     const options = {
       method: 'POST',

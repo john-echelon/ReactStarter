@@ -16,7 +16,7 @@ import injectReducer from 'utils/injectReducer';
 import { makeSelectTokenContext, makeSelectTokenError } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { fetchTokenRequest, removeToken } from './actions';
+import { fetchTokenRequest } from './actions';
 import CenteredSection from './CenteredSection';
 import Form from './Form';
 import Input from './Input';
@@ -111,7 +111,6 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     loginRequest: model => dispatch(fetchTokenRequest(model)),
-    logout: () => dispatch(removeToken()),
   };
 }
 

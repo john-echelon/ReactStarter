@@ -16,7 +16,7 @@ import injectReducer from 'utils/injectReducer';
 import makeSelectCourseContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { removeToken } from 'Containers/LoginContainer/actions';
+import { removeToken } from 'containers/LoginContainer/actions';
 
 export class CourseContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
