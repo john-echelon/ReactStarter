@@ -8,11 +8,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import { createStructuredSelector } from 'reselect';
 import { makeSelectTokenContext, makeSelectTokenError } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -34,9 +33,11 @@ export class LoginContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { loginContext: { tokenFetchStatus } } = this.props;
-    const { loginContext: { nextTokenFetchStatus }, error } = nextProps;
+    const { loginContext: { nextTokenFetchStatus }, error, history } = nextProps;
     if (tokenFetchStatus === fetchStatus.pending && nextTokenFetchStatus === fetchStatus.failure) {
       this.setState({ error });
+    } else if (tokenFetchStatus === fetchStatus.pending && nextTokenFetchStatus === fetchStatus.success) {
+      history.push('/course');
     }
   }
 
@@ -95,6 +96,7 @@ LoginContainer.propTypes = {
     tokenFetchStatus: PropTypes.number,
   }),
   error: PropTypes.object,
+  history: PropTypes.object.isRequired,
 };
 LoginContainer.defaultProps = {
   loginContext: {

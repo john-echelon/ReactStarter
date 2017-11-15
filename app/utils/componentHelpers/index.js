@@ -5,3 +5,7 @@ export {
 export {
   isTokenValid, decodeToken,
 } from './tokenHelper';
+
+export {
+  setLoginCredentials, removeLoginCredentials,
+} from './localStorage';

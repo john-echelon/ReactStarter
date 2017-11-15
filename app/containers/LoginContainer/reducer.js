@@ -11,23 +11,14 @@ import {
   FETCH_TOKEN_FAILURE,
   REMOVE_TOKEN,
 } from './constants';
-import { fetchStatus, localStorageKeys } from 'utils/constants/values';
+import { fetchStatus } from 'utils/constants/values';
+import { setLoginCredentials, removeLoginCredentials } from 'utils/componentHelpers';
 
 const initialState = fromJS({
   isAuthenticated: false,
   tokenFetchStatus: fetchStatus.none,
 });
 
-const setLoginCredentials = action => {
-  const { payload: { token, expiration } } = action;
-  localStorage.setItem(localStorageKeys.accessToken, token);
-  localStorage.setItem(localStorageKeys.expiration, expiration);
-};
-
-const removeLoginCredentials = () => {
-  localStorage.setItem(localStorageKeys.accessToken, null);
-  localStorage.setItem(localStorageKeys.expiration, null);
-};
 
 function tokenReducer(state = initialState, action) {
   switch (action.type) {
@@ -41,7 +32,7 @@ function tokenReducer(state = initialState, action) {
     removeLoginCredentials();
     return state.set('tokenFetchStatus', fetchStatus.failure)
       .set('isAuthenticated', false)
-      .set('error', action.error);
+      .set('error', fromJS(action.error));
   case REMOVE_TOKEN:
     removeLoginCredentials();
     return state.set('isAuthenticated', false);
