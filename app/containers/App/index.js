@@ -28,15 +28,14 @@ import injectReducer from 'utils/injectReducer';
 import reducer from 'containers/LoginContainer/reducer';
 import { makeSelectTokenContext } from 'containers/LoginContainer/selectors';
 import { makeSelectLocation } from './selectors';
-import { fetchStatus, localStorageKeys } from 'utils/constants/values';
+import { fetchStatus } from 'utils/constants/values';
 import { fetchTokenSuccess, removeToken } from 'containers/LoginContainer/actions';
-import { isTokenValid } from 'utils/componentHelpers';
+import { isTokenValid, getLoginCredentials } from 'utils/componentHelpers';
 
 class App extends React.Component {
   componentWillMount() {
     const { loginContext: { isAuthenticated }, restoreSession, logout } = this.props;
-    const token = localStorage[localStorageKeys.accessToken];
-    const expiration = localStorage[localStorageKeys.expiration];
+    const { token, expiration } = getLoginCredentials();
     const isValidToken = isTokenValid(token);
 
     if (!isValidToken) {

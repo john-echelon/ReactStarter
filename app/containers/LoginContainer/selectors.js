@@ -15,7 +15,10 @@ const selectLoginContainerDomain = state => state.get('loginContainer');
 
 const makeSelectTokenError = () => createSelector(
   selectLoginContainerDomain,
-  substate => substate.get('error').toJS()
+  substate => {
+    const error = substate.get('error');
+    return error ? error.toJS() : {};
+  },
 );
 
 const makeSelectTokenContext = () => createSelector(

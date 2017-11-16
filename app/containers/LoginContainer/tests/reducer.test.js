@@ -15,6 +15,7 @@ describe('loginContainerReducer', () => {
     const initialState = fromJS({
       isAuthenticated: false,
       tokenFetchStatus: fetchStatus.none,
+      error: {},
     });
     it('returns the initial state', () => {
       expect(loginContainerReducer(undefined, {})).toEqual(initialState);
@@ -22,14 +23,14 @@ describe('loginContainerReducer', () => {
   });
   describe('Fetch Token Request', () => {
     const expected = fromJS({
-      isAuthenticated: false,
       tokenFetchStatus: fetchStatus.pending,
     });
     const action = {
       type: FETCH_TOKEN_REQUEST,
     };
+    const actual = loginContainerReducer(undefined, action);
     it('has fetch status to pending', () => {
-      expect(loginContainerReducer(undefined, action)).toEqual(expected);
+      expect(actual.tokenFetchStatus).toEqual(expected.tokenFetchStatus);
     });
   });
 
@@ -43,12 +44,15 @@ describe('loginContainerReducer', () => {
       tokenFetchStatus: fetchStatus.success,
     });
     helperDependencies.setLoginCredentials = jest.fn();
-    it('has fetch status to success and user is authenticated', () => {
-      expect(loginContainerReducer(undefined, action)).toEqual(expected);
+    const actual = loginContainerReducer(undefined, action);
+    it('has fetch status to success', () => {
+      expect(actual.tokenFetchStatus).toEqual(expected.tokenFetchStatus);
+    });
+    it('has user authenticated', () => {
+      expect(actual.isAuthenticated).toEqual(expected.isAuthenticated);
     });
     it('has a user session', () => {
-      loginContainerReducer(undefined, action);
-      expect(helperDependencies.setLoginCredentials).toHaveBeenCalledWith(action);
+      expect(helperDependencies.setLoginCredentials).toHaveBeenCalledWith(action.payload);
     });
   });
 
@@ -71,11 +75,17 @@ describe('loginContainerReducer', () => {
       },
     });
     helperDependencies.removeLoginCredentials = jest.fn();
-    it('has status to failure with an error payload, and the user is not authenticated', () => {
-      expect(loginContainerReducer(undefined, action)).toEqual(expected);
+    const actual = loginContainerReducer(undefined, action);
+    it('has status to failure', () => {
+      expect(actual.tokenFetchStatus).toEqual(expected.tokenFetchStatus);
+    });
+    it('has user not authenticated', () => {
+      expect(actual.isAuthenticated).toEqual(expected.isAuthenticated);
+    });
+    it('has an error payload', () => {
+      expect(actual.error).toEqual(expected.error);
     });
     it('has the user session removed', () => {
-      loginContainerReducer(undefined, action);
       expect(helperDependencies.removeLoginCredentials).toHaveBeenCalled();
     });
   });
@@ -85,18 +95,14 @@ describe('loginContainerReducer', () => {
     };
     const expected = fromJS({
       isAuthenticated: false,
-      tokenFetchStatus: fetchStatus.none,
     });
-    it('has status to failure with an error payload, and the user is not authenticated', () => {
-      expect(loginContainerReducer(undefined, action)).toEqual(expected);
+    helperDependencies.removeLoginCredentials = jest.fn();
+    const actual = loginContainerReducer(undefined, action);
+    it('has user not authenticated', () => {
+      expect(actual.isAuthenticated).toEqual(expected.isAuthenticated);
     });
     it('has the user session removed', () => {
-      loginContainerReducer(undefined, action);
       expect(helperDependencies.removeLoginCredentials).toHaveBeenCalled();
-    });
-  });
-  describe('On initial load', () => {
-    it('returns ', () => {
     });
   });
 });

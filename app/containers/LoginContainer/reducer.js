@@ -17,15 +17,15 @@ import { setLoginCredentials, removeLoginCredentials } from 'utils/componentHelp
 const initialState = fromJS({
   isAuthenticated: false,
   tokenFetchStatus: fetchStatus.none,
+  error: {},
 });
-
 
 function tokenReducer(state = initialState, action) {
   switch (action.type) {
   case FETCH_TOKEN_REQUEST:
     return state.set('tokenFetchStatus', fetchStatus.pending);
   case FETCH_TOKEN_SUCCESS:
-    setLoginCredentials(action);
+    setLoginCredentials(action.payload);
     return state.set('tokenFetchStatus', fetchStatus.success)
       .set('isAuthenticated', true);
   case FETCH_TOKEN_FAILURE:

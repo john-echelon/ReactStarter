@@ -7,5 +7,9 @@ export {
 } from './tokenHelper';
 
 export {
-  setLoginCredentials, removeLoginCredentials,
+  setLoginCredentials, getLoginCredentials, removeLoginCredentials,
 } from './localStorage';
+
+export {
+  makeRequestURL,
+} from './requestHelper';
